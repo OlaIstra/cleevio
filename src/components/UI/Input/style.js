@@ -25,4 +25,6 @@ export const ValidationErrorStyle = styled.p`
     margin: 0px;
     font-size: ${fontSize.small}px;
     color: ${color.orange};
+
+    display: ${(props) => (props.valid ? 'block' : 'none')};
 `

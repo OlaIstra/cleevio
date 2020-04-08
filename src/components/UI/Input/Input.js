@@ -3,14 +3,9 @@ import React from 'react'
 import { InputStyle, ValidationErrorStyle } from './style'
 
 export const Input = React.forwardRef((props, ref) => {
-	let validationClasses
-
-	props.invalid
-		? (validationClasses = 'show__invalid')
-		: (validationClasses = 'hide__invalid')
-
+	
 	let validationError = (
-		<ValidationErrorStyle className={validationClasses}>
+		<ValidationErrorStyle valid={props.invalid}>
 			Please fill the blank
 		</ValidationErrorStyle>
 	)

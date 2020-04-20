@@ -1,7 +1,15 @@
 import styled from 'styled-components'
 import { color, lineHeight, fontSize, height, padding, radius } from '../../../styles/index'
 
-export const InputStyle = styled.input`
+interface InputProps {
+    isFocus: boolean
+}
+
+interface ParagraphProps {
+    valid: boolean
+}
+
+export const InputStyle = styled.input<InputProps>`
     max-width: 380px;
     width: 100%;
     height: ${height.small}px;
@@ -21,7 +29,7 @@ export const InputStyle = styled.input`
     border-bottom-right-radius: ${ props => (props.isFocus ? 0 : radius.medium)}px; 
 `;
 
-export const ValidationErrorStyle = styled.p`
+export const ValidationErrorStyle = styled.p<ParagraphProps>`
     margin: 0px;
     font-size: ${fontSize.small}px;
     color: ${color.orange};

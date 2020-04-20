@@ -1,4 +1,4 @@
-export const sizes = {
+export const sizes: Record<string, string> = {
     mobileS: '320px',
     mobileM: '375px',
     mobileL: '425px',
@@ -8,7 +8,7 @@ export const sizes = {
     desktop: '2560px',
 };
 
-export const devices = {
+export const devices: Record<string, string> = {
     mobileS: `(max-width: ${sizes.mobileS})`,
     mobileM: `(max-width: ${sizes.mobileM})`,
     mobileL: `(max-width: ${sizes.mobileL})`,

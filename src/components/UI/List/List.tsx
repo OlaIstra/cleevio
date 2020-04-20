@@ -2,7 +2,12 @@ import React from 'react'
 
 import { ListStyle, ListItemStyle } from './style'
 
-export const List = (props) => {
+type Props = {
+	list: Array<any>
+	clicked: () => void
+}
+
+export const List = (props: Props) => {
 	return (
 		<ListStyle>
 			{props.list.map((elem) => {

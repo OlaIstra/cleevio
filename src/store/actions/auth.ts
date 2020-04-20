@@ -2,13 +2,28 @@ import * as actionTypes from './actionTypes'
 
 import axios from 'axios'
 
-export const authStart = () => {
+type ActionStartType = {
+	type: typeof actionTypes.AUTH_START
+}
+
+type ActionSuccessType = {
+	type: typeof actionTypes.AUTH_SUCCESS
+	idToken: string
+	userId: string | null
+}
+
+type ActionFailType = {
+	type: typeof actionTypes.AUTH_FAIL
+	error: string
+}
+
+export const authStart = (): ActionStartType => {
 	return {
 		type: actionTypes.AUTH_START,
 	}
 }
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (token: string, userId: string | null): ActionSuccessType => {
 	return {
 		type: actionTypes.AUTH_SUCCESS,
 		idToken: token,
@@ -16,14 +31,18 @@ export const authSuccess = (token, userId) => {
 	}
 }
 
-export const authFail = (error) => {
+export const authFail = (error: string): ActionFailType => {
 	return {
 		type: actionTypes.AUTH_FAIL,
 		error: error,
 	}
 }
 
-export const logout = () => {
+type ActionLogoutType = {
+	type: typeof actionTypes.AUTH_LOGOUT
+}
+
+export const logout = (): ActionLogoutType => {
 	localStorage.removeItem('token')
 	localStorage.removeItem('expirationDate')
 	localStorage.removeItem('userId')
@@ -32,16 +51,16 @@ export const logout = () => {
 	}
 }
 
-export const checkAuthTimeout = (time) => {
-	return (dispatch) => {
+export const checkAuthTimeout = (time: number) => {
+	return (dispatch: any) => {
 		setTimeout(() => {
 			dispatch(logout())
 		}, time * 1000)
 	}
 }
 
-export const auth = (email, password, isSignUp) => {
-	return (dispatch) => {
+export const auth = (email: string, password: string, isSignUp: boolean) => {
+	return (dispatch: any) => {
 		dispatch(authStart())
 		const authData = {
 			email: email,
@@ -60,7 +79,7 @@ export const auth = (email, password, isSignUp) => {
 		axios
 			.post(url, authData)
 			.then((response) => {
-				const expirationDate = new Date(
+				const expirationDate: any = new Date(
 					new Date().getTime() + response.data.expiresIn * 1000
 				)
 				localStorage.setItem('token', response.data.idToken)
@@ -75,7 +94,12 @@ export const auth = (email, password, isSignUp) => {
 	}
 }
 
-export const setAuthRedirectPath = (path) => {
+type ActionSetPathType = {
+	type: typeof actionTypes.SET_AUTH_REDIRECT_PATH
+	path: string
+}
+
+export const setAuthRedirectPath = (path: string): ActionSetPathType => {
 	return {
 		type: actionTypes.SET_AUTH_REDIRECT_PATH,
 		path: path,
@@ -83,12 +107,15 @@ export const setAuthRedirectPath = (path) => {
 }
 
 export const checkAuthStatus = () => {
-	return (dispatch) => {
+	return (dispatch: any) => {
+		console.log(localStorage.getItem('token'))
 		const token = localStorage.getItem('token')
 		if (!token) {
 			dispatch(logout())
 		} else {
-			const expirationDate = new Date(localStorage.getItem('expirationDate'))
+			console.log(localStorage.getItem('expirationDate'))
+			const date: any = localStorage.getItem('expirationDate')
+			const expirationDate: any = new Date(date)
 			if (expirationDate <= new Date()) {
 				dispatch(logout())
 			} else {

@@ -2,7 +2,14 @@ import React from 'react'
 
 import { ButtonStyle } from './style'
 
-export const Button = (props) => {
+type Props = {
+	title: string
+	icon: string
+	disabled: boolean
+	clicked: () => void
+}
+
+export const Button = (props: Props) => {
 	let widthContent = !!props.title
 
 	return (

@@ -1,5 +1,5 @@
 
-export const fontSizes = {
+export const fontSizes: Record<string, number> = {
     micro: 12,
     small: 14,
     normal: 16,
@@ -9,14 +9,14 @@ export const fontSizes = {
     extraLarge: 36
 };
 
-export const fontWeights = {
+export const fontWeights: Record<string, number> = {
     light: 300,
     regular: 400,
     medium: 500,
     bold: 600,
 };
 
-export const lineHeights = {
+export const lineHeights: Record<string, number> = {
     micro: 18,
     small: 21,
     normal: 24,

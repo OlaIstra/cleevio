@@ -1,8 +1,8 @@
-export const colors = {
+export const colors: Record<string, string> = {
     grey: '#F1F1F2',
     greyLight: '#F9F9FA',
     greyDark: '#dbdbdd',
-    greyBlack: '#76787B',    
+    greyBlack: '#76787B',
     greyShadow: '#97999B',
     greyFog: '#ccccccba',
     white: '#fff',

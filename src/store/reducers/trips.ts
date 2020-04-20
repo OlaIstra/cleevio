@@ -1,13 +1,26 @@
 import * as actionTypes from '../actions/actionTypes'
 import { updateObject } from '../../shared/utils'
 
-const initialState = {
+type Country = {
+	id: string
+	value: string
+	text: string
+	icon: string
+}
+
+type InitialStateType = {
+	countries: Array<Country>
+	loading: boolean
+	error: null | string
+}
+
+const initialState: InitialStateType = {
 	countries: [],
 	loading: false,
 	error: null,
 }
 
-export const tripsReducer = (state = initialState, action) => {
+export const tripsReducer = (state = initialState, action: any): InitialStateType => {
 	switch (action.type) {
 		case actionTypes.FETCH_TRIPS_START:
 			return updateObject(state, {

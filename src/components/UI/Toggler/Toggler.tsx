@@ -2,6 +2,11 @@ import React from 'react'
 
 import { TogglerStyle } from './style'
 
-export const Toggler = (props) => {
+type Props = {
+	title: string
+	clicked: () => void
+}
+
+export const Toggler = (props: Props) => {
 	return <TogglerStyle onClick={props.clicked}>{props.title}</TogglerStyle>
 }

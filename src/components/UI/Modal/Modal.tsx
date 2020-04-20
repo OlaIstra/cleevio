@@ -3,7 +3,13 @@ import React from 'react'
 import { Modal } from './style'
 import { Backdrop } from '../Backdrop/Backdrop'
 
-const ModalWin = (props) => {
+type Props = {
+	show: boolean
+	modalClosed: () => void
+	children: any
+}
+
+const ModalWin = (props: Props) => {
 	return (
 		<>
 			<Backdrop show={props.show} clicked={props.modalClosed} />

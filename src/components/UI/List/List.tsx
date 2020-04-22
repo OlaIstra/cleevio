@@ -7,7 +7,7 @@ type Props = {
 	clicked: () => void
 }
 
-export const List = (props: Props) => {
+export const List: React.FC<Props> = (props) => {
 	return (
 		<ListStyle>
 			{props.list.map((elem) => {

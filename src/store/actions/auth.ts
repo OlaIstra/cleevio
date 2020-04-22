@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes'
 
 import axios from 'axios'
 
+
 type ActionStartType = {
 	type: typeof actionTypes.AUTH_START
 }
@@ -16,6 +17,17 @@ type ActionFailType = {
 	type: typeof actionTypes.AUTH_FAIL
 	error: string
 }
+
+type ActionLogoutType = {
+	type: typeof actionTypes.AUTH_LOGOUT
+}
+
+type ActionSetPathType = {
+	type: typeof actionTypes.SET_AUTH_REDIRECT_PATH
+	path: string
+}
+
+export type ActionAuthType = ActionStartType | ActionSuccessType | ActionFailType | ActionLogoutType | ActionSetPathType
 
 export const authStart = (): ActionStartType => {
 	return {
@@ -36,10 +48,6 @@ export const authFail = (error: string): ActionFailType => {
 		type: actionTypes.AUTH_FAIL,
 		error: error,
 	}
-}
-
-type ActionLogoutType = {
-	type: typeof actionTypes.AUTH_LOGOUT
 }
 
 export const logout = (): ActionLogoutType => {
@@ -92,11 +100,6 @@ export const auth = (email: string, password: string, isSignUp: boolean) => {
 				dispatch(authFail(err.response.data.error))
 			})
 	}
-}
-
-type ActionSetPathType = {
-	type: typeof actionTypes.SET_AUTH_REDIRECT_PATH
-	path: string
 }
 
 export const setAuthRedirectPath = (path: string): ActionSetPathType => {

@@ -1,5 +1,4 @@
 import React from 'react'
-//@ts-ignore
 import { NavLink } from 'react-router-dom'
 import { NavlinkStyle } from './style'
 
@@ -10,7 +9,7 @@ type Props = {
 	exact?: boolean
 }
 
-export const Navlink = (props: Props) => (
+export const Navlink: React.FC<Props> = (props) => (
 	<NavlinkStyle>
 		<NavLink to={props.link} exact={props.exact}>
 			{props.title}

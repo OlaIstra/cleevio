@@ -7,6 +7,6 @@ type Props = {
 	clicked: () => void
 }
 
-export const Toggler = (props: Props) => {
+export const Toggler: React.FC<Props> = (props) => {
 	return <TogglerStyle onClick={props.clicked}>{props.title}</TogglerStyle>
 }

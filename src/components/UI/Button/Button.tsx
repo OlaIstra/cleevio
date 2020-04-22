@@ -9,7 +9,7 @@ type Props = {
 	clicked?: () => void
 }
 
-export const Button = (props: Props) => {
+export const Button: React.FC<Props> = (props) => {
 	let widthContent = !!props.title
 
 	return (

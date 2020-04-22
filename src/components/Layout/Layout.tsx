@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
-//@ts-ignore
 import { useSelector } from 'react-redux'
 
 import { NavBar } from '../NavBar/NavBar'
 import { Button } from '../UI/Button/Button'
 
 import { LayoutStyle, MainStyle, AsideStyle } from './style'
+import { AppStateType } from '../..'
 
-export const Layout = (props) => {
+type Props = {
+	children: any
+}
+
+export const Layout: React.FC<Props> = (props) => {
 	const [isShow, setIsShow] = useState(false)
-	const isLogin = useSelector((state) => {
+	const isLogin = useSelector((state: AppStateType) => {
 		return state.auth.token !== null
 	})
 	const toggleNavbar = () => {

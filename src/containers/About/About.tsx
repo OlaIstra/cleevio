@@ -5,9 +5,14 @@ import { H1 } from '../../components/UI/H1/H1'
 import { Button } from '../../components/UI/Button/Button'
 
 import { AboutStyle } from './style'
+import { AppStateType } from '../..'
 
-export const About = (props) => {
-	const isAuth = useSelector((state) => {
+type Props = {
+	history: Array<string>
+}
+
+export const About: React.FC<Props> = (props) => {
+	const isAuth = useSelector((state: AppStateType) => {
 		return state.auth.token !== null
 	})
 
@@ -25,8 +30,8 @@ export const About = (props) => {
 			{isAuth ? (
 				<Button title='Please go to trips' clicked={redirectToTrips} />
 			) : (
-				<Button title='Please Log in' clicked={redirectToAuth} />
-			)}
+					<Button title='Please Log in' clicked={redirectToAuth} />
+				)}
 		</AboutStyle>
 	)
 }

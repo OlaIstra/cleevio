@@ -7,6 +7,6 @@ type Props = {
 	clicked: () => void
 }
 
-export const Backdrop = (props: Props) => {
+export const Backdrop: React.FC<Props> = (props) => {
 	return props.show ? <BackdropStyle onClick={props.clicked} /> : null
 }

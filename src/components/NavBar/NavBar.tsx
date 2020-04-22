@@ -8,7 +8,7 @@ type Props = {
 	isAuth: boolean
 }
 
-export const NavBar = (props: Props) => {
+export const NavBar: React.FC<Props> = (props) => {
 	return (
 		<NavBarStyle isShow={props.isShow}>
 			<Navlink link='/' exact icon='icon-home' title='About' />

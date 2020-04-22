@@ -13,7 +13,7 @@ type Props = {
 	onblur: any
 }
 
-export const Input = React.forwardRef((props: Props, ref: any) => {
+export const Input: React.FC<Props> = React.forwardRef((props, ref: any) => {
 
 	let validationError = (
 		<ValidationErrorStyle valid={props.invalid}>

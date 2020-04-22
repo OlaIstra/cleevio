@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes'
 import { updateObject } from '../../shared/utils'
+import { ActionTripType } from '../actions/trips'
 
 type Country = {
 	id: string
@@ -20,7 +21,7 @@ const initialState: InitialStateType = {
 	error: null,
 }
 
-export const tripsReducer = (state = initialState, action: any): InitialStateType => {
+export const tripsReducer = (state = initialState, action: ActionTripType): InitialStateType => {
 	switch (action.type) {
 		case actionTypes.FETCH_TRIPS_START:
 			return updateObject(state, {

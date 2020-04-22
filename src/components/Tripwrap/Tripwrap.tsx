@@ -11,7 +11,7 @@ type Props = {
 	title: string
 }
 
-export const Tripwrap = (props: Props) => {
+export const Tripwrap: React.FC<Props> = (props) => {
 	let flag: undefined | string
 	switch (props.id) {
 		case 'germany':

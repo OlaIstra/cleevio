@@ -9,34 +9,36 @@ type Country = {
 	icon: string
 }
 
-type InitializedStartActionType = {
+type ActionStartType = {
 	type: typeof actionTypes.FETCH_TRIPS_START
 }
 
-type InitializedSuccessActionType = {
+type ActionSuccessType = {
 	type: typeof actionTypes.FETCH_TRIPS_SUCCESS
 	countries: Array<Country>
 }
 
-type InitializedFailActionType = {
+type ActionFailType = {
 	type: typeof actionTypes.FETCH_TRIPS_FAIL
 	error: string
 }
 
-export const fetchTripsStart = (): InitializedStartActionType => {
+export type ActionTripType = ActionStartType | ActionSuccessType | ActionFailType
+
+export const fetchTripsStart = (): ActionStartType => {
 	return {
 		type: actionTypes.FETCH_TRIPS_START,
 	}
 }
 
-export const fetchTripsSuccess = (countries: Array<Country>): InitializedSuccessActionType => {
+export const fetchTripsSuccess = (countries: Array<Country>): ActionSuccessType => {
 	return {
 		type: actionTypes.FETCH_TRIPS_SUCCESS,
 		countries: countries,
 	}
 }
 
-export const fetchTripsFail = (error: string): InitializedFailActionType => {
+export const fetchTripsFail = (error: string): ActionFailType => {
 	return {
 		type: actionTypes.FETCH_TRIPS_FAIL,
 		error: error,

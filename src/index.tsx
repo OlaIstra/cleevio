@@ -12,20 +12,21 @@ import { authReducer } from './store/reducers/auth'
 import './index.css'
 import App from './App'
 
-const composeEnhancers =
-	(process.env.NODE_ENV === 'development'
-		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-		: null) || compose
+//@ts-ignore
+const composeEnhancers = (process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null) || compose
 
 const rootReducer = combineReducers({
 	trips: tripsReducer,
 	auth: authReducer,
 })
 
+type RootReducerType = typeof rootReducer
+export type AppStateType = ReturnType<RootReducerType>
+
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 
 const app = (
-	<Provider store={store}>
+	<Provider store={store} >
 		<BrowserRouter>
 			<App />
 		</BrowserRouter>

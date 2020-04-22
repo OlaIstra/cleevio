@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes'
 import { updateObject } from '../../shared/utils'
+import { ActionAuthType } from '../actions/auth'
 
 type InitialStateType = {
 	token: null | string,
@@ -17,7 +18,7 @@ const initialState: InitialStateType = {
 	authRedirectPath: '/',
 }
 
-export const authReducer = (state: InitialStateType = initialState, action: any) => {
+export const authReducer = (state: InitialStateType = initialState, action: ActionAuthType) => {
 	switch (action.type) {
 		case actionTypes.AUTH_START:
 			return updateObject(state, {

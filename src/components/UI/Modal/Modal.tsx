@@ -9,7 +9,7 @@ type Props = {
 	children: any
 }
 
-const ModalWin = (props: Props) => {
+const ModalWin: React.FC<Props> = (props) => {
 	return (
 		<>
 			<Backdrop show={props.show} clicked={props.modalClosed} />

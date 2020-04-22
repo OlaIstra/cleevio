@@ -3,7 +3,12 @@ import React from 'react'
 import { Navlink } from '../UI/NavLink/Navlink'
 import { NavBarStyle } from './style'
 
-export const NavBar = (props) => {
+type Props = {
+	isShow: boolean
+	isAuth: boolean
+}
+
+export const NavBar = (props: Props) => {
 	return (
 		<NavBarStyle isShow={props.isShow}>
 			<Navlink link='/' exact icon='icon-home' title='About' />
@@ -11,8 +16,8 @@ export const NavBar = (props) => {
 			{props.isAuth ? (
 				<Navlink link='/logout' icon='icon-refresh' title='Logout' />
 			) : (
-				<Navlink link='/auth' icon='icon-edit' title='Authentication' />
-			)}
+					<Navlink link='/auth' icon='icon-edit' title='Authentication' />
+				)}
 		</NavBarStyle>
 	)
 }

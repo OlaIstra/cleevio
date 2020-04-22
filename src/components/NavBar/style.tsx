@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 import { color, device } from '../../styles/index'
 
-export const NavBarStyle = styled.ul`
+interface NavBarProps {
+	isShow: Boolean
+}
+
+export const NavBarStyle = styled.ul<NavBarProps>`
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;

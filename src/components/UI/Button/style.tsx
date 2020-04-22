@@ -11,7 +11,7 @@ import {
 
 interface ButtonProps {
 	widthProp: Boolean
-	icon: string
+	icon?: string
 }
 
 export const ButtonStyle = styled.button<ButtonProps>`

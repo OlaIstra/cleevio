@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+//@ts-ignore
 import { useSelector } from 'react-redux'
 
 import { NavBar } from '../NavBar/NavBar'

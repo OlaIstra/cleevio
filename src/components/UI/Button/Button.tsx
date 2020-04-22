@@ -3,10 +3,10 @@ import React from 'react'
 import { ButtonStyle } from './style'
 
 type Props = {
-	title: string
-	icon: string
-	disabled: boolean
-	clicked: () => void
+	title?: string
+	icon?: string
+	disabled?: boolean
+	clicked?: () => void
 }
 
 export const Button = (props: Props) => {

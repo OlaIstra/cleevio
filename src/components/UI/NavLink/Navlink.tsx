@@ -7,7 +7,7 @@ type Props = {
 	link: string
 	title: string
 	icon: string
-	exact: boolean
+	exact?: boolean
 }
 
 export const Navlink = (props: Props) => (

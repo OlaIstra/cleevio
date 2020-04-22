@@ -6,8 +6,13 @@ import { Button } from '../UI/Button/Button'
 import germany from '../../assets/img/flags/germany.svg'
 import czechia from '../../assets/img/flags/czechia.svg'
 
-export const Tripwrap = (props) => {
-	let flag = null
+type Props = {
+	id: string
+	title: string
+}
+
+export const Tripwrap = (props: Props) => {
+	let flag: undefined | string
 	switch (props.id) {
 		case 'germany':
 			flag = germany
@@ -16,7 +21,7 @@ export const Tripwrap = (props) => {
 			flag = czechia
 			break
 		default:
-			flag = null
+			flag = ''
 	}
 
 	return (

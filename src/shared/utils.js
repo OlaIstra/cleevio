@@ -16,7 +16,7 @@ export const checkValidaty = (value, rules) => {
 	let isValid = true
 
 	if (!rules) {
-		return
+		return true
 	}
 
 	if (rules.required) {

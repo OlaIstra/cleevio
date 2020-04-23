@@ -53,7 +53,7 @@ export const Auth = (props) => {
 
 	const dispatch = useDispatch()
 	const onSetAuthRedirectPath = useCallback(
-		(path) => dispatch(actions.setAuthRedirectPath(path)),
+		(path) => dispatch(actions.actions.setAuthRedirectPath(path)),
 		[dispatch]
 	)
 	const onAuth = (email, password, isSignUp) =>

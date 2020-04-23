@@ -2,49 +2,31 @@ import * as actionTypes from './actionTypes'
 import { instanse } from '../../shared/axios'
 import { mapKeys } from 'lodash'
 import { ThunkAction } from 'redux-thunk'
-import { AppStateType } from '../..'
+import { AppStateType, InferActionsTypes } from '../..'
 import { Action } from 'redux'
+import { Country } from '../reducers/trips'
 
-type Country = {
-	id?: string
-	value: string
-	text: string
-	icon: string
-}
+export type ActionTripType = InferActionsTypes<typeof actions>
 
-type ActionStartType = {
-	type: typeof actionTypes.FETCH_TRIPS_START
-}
+export const actions = {
+	fetchTripsStart: () => {
+		return {
+			type: actionTypes.FETCH_TRIPS_START,
+		} as const
+	},
 
-type ActionSuccessType = {
-	type: typeof actionTypes.FETCH_TRIPS_SUCCESS
-	countries: Array<Country>
-}
+	fetchTripsSuccess: (countries: Array<Country>) => {
+		return {
+			type: actionTypes.FETCH_TRIPS_SUCCESS,
+			countries: countries,
+		} as const
+	},
 
-type ActionFailType = {
-	type: typeof actionTypes.FETCH_TRIPS_FAIL
-	error: string
-}
-
-export type ActionTripType = ActionStartType | ActionSuccessType | ActionFailType
-
-export const fetchTripsStart = (): ActionStartType => {
-	return {
-		type: actionTypes.FETCH_TRIPS_START,
-	}
-}
-
-export const fetchTripsSuccess = (countries: Array<Country>): ActionSuccessType => {
-	return {
-		type: actionTypes.FETCH_TRIPS_SUCCESS,
-		countries: countries,
-	}
-}
-
-export const fetchTripsFail = (error: string): ActionFailType => {
-	return {
-		type: actionTypes.FETCH_TRIPS_FAIL,
-		error: error,
+	fetchTripsFail: (error: string) => {
+		return {
+			type: actionTypes.FETCH_TRIPS_FAIL,
+			error: error,
+		} as const
 	}
 }
 
@@ -57,7 +39,7 @@ type ResponseType = Array<ResponceDataType>
 
 export const fetchTrips = (): ThunkAction<void, AppStateType, unknown, Action<string>> => {
 	return (dispatch) => {
-		dispatch(fetchTripsStart())
+		dispatch(actions.fetchTripsStart())
 		instanse
 			.get<ResponseType>('/countries.json')
 			.then((res) => {
@@ -70,10 +52,10 @@ export const fetchTrips = (): ThunkAction<void, AppStateType, unknown, Action<st
 						...result.data[key],
 					})
 				})
-				dispatch(fetchTripsSuccess(tripsToShow))
+				dispatch(actions.fetchTripsSuccess(tripsToShow))
 			})
 			.catch((error: string) => {
-				dispatch(fetchTripsFail(error))
+				dispatch(actions.fetchTripsFail(error))
 			})
 	}
 }

@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes'
-import { updateObject } from '../../shared/utils'
 import { ActionAuthType } from '../actions/auth'
 
 type InitialStateType = {
@@ -21,35 +20,40 @@ const initialState: InitialStateType = {
 export const authReducer = (state: InitialStateType = initialState, action: ActionAuthType) => {
 	switch (action.type) {
 		case actionTypes.AUTH_START:
-			return updateObject(state, {
+			return {
+				...state,
 				error: null,
 				loading: true,
-			})
+			}
 
 		case actionTypes.AUTH_SUCCESS:
-			return updateObject(state, {
+			return {
+				...state,
 				token: action.idToken,
 				userId: action.userId,
 				error: null,
 				loading: false,
-			})
+			}
 
 		case actionTypes.AUTH_FAIL:
-			return updateObject(state, {
+			return {
+				...state,
 				error: action.error,
 				loading: false,
-			})
+			}
 
 		case actionTypes.AUTH_LOGOUT:
-			return updateObject(state, {
+			return {
+				...state,
 				token: null,
 				userId: null,
-			})
+			}
 
 		case actionTypes.SET_AUTH_REDIRECT_PATH:
-			return updateObject(state, {
+			return {
+				...state,
 				authRedirectPath: action.path,
-			})
+			}
 
 		default:
 			return state

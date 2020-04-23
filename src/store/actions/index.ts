@@ -1,3 +1,3 @@
 export { fetchTrips } from './trips'
 
-export { auth, logout, setAuthRedirectPath, checkAuthStatus } from './auth'
+export { auth, actions, checkAuthStatus } from './auth'

@@ -2,74 +2,57 @@ import * as actionTypes from './actionTypes'
 
 import axios, { AxiosResponse } from 'axios'
 import { ThunkAction } from 'redux-thunk'
-import { AppStateType } from '../..'
+import { AppStateType, InferActionsTypes } from '../..'
 import { Action } from 'redux'
 
+export type ActionAuthType = InferActionsTypes<typeof actions>
 
-type ActionStartType = {
-	type: typeof actionTypes.AUTH_START
-}
+export const actions = {
+	authStart: () => {
+		return {
+			type: actionTypes.AUTH_START,
+		} as const
+	},
 
-type ActionSuccessType = {
-	type: typeof actionTypes.AUTH_SUCCESS
-	idToken: string
-	userId: string | null
-}
+	authSuccess: (token: string, userId: string | null) => {
+		return {
+			type: actionTypes.AUTH_SUCCESS,
+			idToken: token,
+			userId: userId,
+		} as const
+	},
 
-type ActionFailType = {
-	type: typeof actionTypes.AUTH_FAIL
-	error: string
-}
+	authFail: (error: string) => {
+		return {
+			type: actionTypes.AUTH_FAIL,
+			error: error,
+		} as const
+	},
 
-type ActionLogoutType = {
-	type: typeof actionTypes.AUTH_LOGOUT
-}
+	logout: () => {
+		localStorage.removeItem('token')
+		localStorage.removeItem('expirationDate')
+		localStorage.removeItem('userId')
+		return {
+			type: actionTypes.AUTH_LOGOUT,
+		} as const
+	},
 
-type ActionSetPathType = {
-	type: typeof actionTypes.SET_AUTH_REDIRECT_PATH
-	path: string
-}
-
-export type ActionAuthType = ActionStartType | ActionSuccessType | ActionFailType | ActionLogoutType | ActionSetPathType
-
-export const authStart = (): ActionStartType => {
-	return {
-		type: actionTypes.AUTH_START,
-	}
-}
-
-export const authSuccess = (token: string, userId: string | null): ActionSuccessType => {
-	return {
-		type: actionTypes.AUTH_SUCCESS,
-		idToken: token,
-		userId: userId,
-	}
-}
-
-export const authFail = (error: string): ActionFailType => {
-	return {
-		type: actionTypes.AUTH_FAIL,
-		error: error,
-	}
-}
-
-export const logout = (): ActionLogoutType => {
-	localStorage.removeItem('token')
-	localStorage.removeItem('expirationDate')
-	localStorage.removeItem('userId')
-	return {
-		type: actionTypes.AUTH_LOGOUT,
-	}
+	setAuthRedirectPath: (path: string) => {
+		return {
+			type: actionTypes.SET_AUTH_REDIRECT_PATH,
+			path: path,
+		} as const
+	},
 }
 
 export const checkAuthTimeout = (time: number): ThunkAction<void, AppStateType, unknown, Action<string>> => {
 	return (dispatch) => {
 		setTimeout(() => {
-			dispatch(logout())
+			dispatch(actions.logout())
 		}, time * 1000)
 	}
 }
-
 
 type ResponceDataType = {
 	kind: string
@@ -84,7 +67,7 @@ type ResponceDataType = {
 
 export const auth = (email: string, password: string, isSignUp: boolean): ThunkAction<void, AppStateType, unknown, Action<string>> => {
 	return (dispatch) => {
-		dispatch(authStart())
+		dispatch(actions.authStart())
 		const authData = {
 			email: email,
 			password: password,
@@ -108,19 +91,12 @@ export const auth = (email: string, password: string, isSignUp: boolean): ThunkA
 				localStorage.setItem('token', res.data.idToken)
 				localStorage.setItem('expirationDate', expirationDate.toString())
 				localStorage.setItem('userId', res.data.localId)
-				dispatch(authSuccess(res.data.idToken, res.data.localId))
+				dispatch(actions.authSuccess(res.data.idToken, res.data.localId))
 				dispatch(checkAuthTimeout(res.data.expiresIn))
 			})
 			.catch((err) => {
-				dispatch(authFail(err.response.data.error))
+				dispatch(actions.authFail(err.response.data.error))
 			})
-	}
-}
-
-export const setAuthRedirectPath = (path: string): ActionSetPathType => {
-	return {
-		type: actionTypes.SET_AUTH_REDIRECT_PATH,
-		path: path,
 	}
 }
 
@@ -128,16 +104,16 @@ export const checkAuthStatus = (): ThunkAction<void, AppStateType, unknown, Acti
 	return (dispatch) => {
 		const token = localStorage.getItem('token')
 		if (!token) {
-			dispatch(logout())
+			dispatch(actions.logout())
 		} else {
 			const date: string | null = localStorage.getItem('expirationDate')
 			if (date) {
 				const expirationDate = new Date(date)
 				if (expirationDate <= new Date()) {
-					dispatch(logout())
+					dispatch(actions.logout())
 				} else {
 					const userId = localStorage.getItem('userId')
-					dispatch(authSuccess(token, userId))
+					dispatch(actions.authSuccess(token, userId))
 					dispatch(
 						checkAuthTimeout(
 							(expirationDate.getTime() - new Date().getTime()) / 1000

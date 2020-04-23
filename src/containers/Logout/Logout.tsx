@@ -4,10 +4,9 @@ import { useDispatch } from 'react-redux'
 
 import * as actions from '../../store/actions/index'
 
-
 export const Logout: React.FC = () => {
 	const dispatch = useDispatch()
-	const onLogout = useCallback(() => dispatch(actions.logout()), [dispatch])
+	const onLogout = useCallback(() => dispatch(actions.actions.logout()), [dispatch])
 
 	useEffect(() => {
 		onLogout()

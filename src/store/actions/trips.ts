@@ -1,6 +1,9 @@
 import * as actionTypes from './actionTypes'
-import axios from 'axios'
+import { instanse } from '../../shared/axios'
 import { mapKeys } from 'lodash'
+import { ThunkAction } from 'redux-thunk'
+import { AppStateType } from '../..'
+import { Action } from 'redux'
 
 type Country = {
 	id?: string
@@ -45,14 +48,20 @@ export const fetchTripsFail = (error: string): ActionFailType => {
 	}
 }
 
-export const fetchTrips = () => {
-	return (dispatch: any) => {
-		dispatch(fetchTripsStart())
-		axios
-			.get('https://gist.githubusercontent.com/davidzadrazil/43378abbaa2f1145ef50000eccf81a85/raw/d734d8877c2aa9e1e8c1c59bcb7ec98d7f8d8459/countries.json')
-			.then((res: any) => {
-				const tripsToShow: Array<Country> = []
+type ResponceDataType = {
+	label: string
+	data: Array<Country>
+}
 
+type ResponseType = Array<ResponceDataType>
+
+export const fetchTrips = (): ThunkAction<void, AppStateType, unknown, Action<string>> => {
+	return (dispatch) => {
+		dispatch(fetchTripsStart())
+		instanse
+			.get<ResponseType>('/countries.json')
+			.then((res) => {
+				const tripsToShow: Array<Country> = []
 				const result = res.data[0]
 
 				mapKeys(result.data, function (val, key) {

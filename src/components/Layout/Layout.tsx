@@ -8,7 +8,7 @@ import { LayoutStyle, MainStyle, AsideStyle } from './style'
 import { AppStateType } from '../..'
 
 type Props = {
-	children: any
+	children: React.ReactNode
 }
 
 export const Layout: React.FC<Props> = (props) => {

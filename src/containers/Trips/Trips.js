@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, createRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as actions from '../../store/actions/index'
 import { withErrorHandler } from '../../hoc/withErrorHandler'
-import axios from '../../shared/axios'
+import { instanse } from '../../shared/axios'
 
 import { H1 } from '../../components/UI/H1/H1'
 import { Input } from '../../components/UI/Input/Input'
@@ -96,4 +96,4 @@ const Trips = (props) => {
 	)
 }
 
-export default withErrorHandler(Trips, axios)
+export default withErrorHandler(Trips, instanse)

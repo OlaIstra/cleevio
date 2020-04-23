@@ -6,7 +6,7 @@ import { Backdrop } from '../Backdrop/Backdrop'
 type Props = {
 	show: boolean
 	modalClosed: () => void
-	children: any
+	children: React.ReactNode
 }
 
 const ModalWin: React.FC<Props> = (props) => {

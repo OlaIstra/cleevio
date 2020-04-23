@@ -1,6 +1,9 @@
 import * as actionTypes from './actionTypes'
 
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
+import { ThunkAction } from 'redux-thunk'
+import { AppStateType } from '../..'
+import { Action } from 'redux'
 
 
 type ActionStartType = {
@@ -59,16 +62,28 @@ export const logout = (): ActionLogoutType => {
 	}
 }
 
-export const checkAuthTimeout = (time: number) => {
-	return (dispatch: any) => {
+export const checkAuthTimeout = (time: number): ThunkAction<void, AppStateType, unknown, Action<string>> => {
+	return (dispatch) => {
 		setTimeout(() => {
 			dispatch(logout())
 		}, time * 1000)
 	}
 }
 
-export const auth = (email: string, password: string, isSignUp: boolean) => {
-	return (dispatch: any) => {
+
+type ResponceDataType = {
+	kind: string
+	localId: string
+	email: string
+	displayName: string
+	idToken: string
+	registered: boolean
+	refreshToken: string
+	expiresIn: number
+}
+
+export const auth = (email: string, password: string, isSignUp: boolean): ThunkAction<void, AppStateType, unknown, Action<string>> => {
+	return (dispatch) => {
 		dispatch(authStart())
 		const authData = {
 			email: email,
@@ -86,15 +101,15 @@ export const auth = (email: string, password: string, isSignUp: boolean) => {
 
 		axios
 			.post(url, authData)
-			.then((response) => {
-				const expirationDate: any = new Date(
-					new Date().getTime() + response.data.expiresIn * 1000
+			.then((res: AxiosResponse<ResponceDataType>) => {
+				const expirationDate: Date = new Date(
+					new Date().getTime() + res.data.expiresIn * 1000
 				)
-				localStorage.setItem('token', response.data.idToken)
-				localStorage.setItem('expirationDate', expirationDate)
-				localStorage.setItem('userId', response.data.localId)
-				dispatch(authSuccess(response.data.idToken, response.data.localId))
-				dispatch(checkAuthTimeout(response.data.expiresIn))
+				localStorage.setItem('token', res.data.idToken)
+				localStorage.setItem('expirationDate', expirationDate.toString())
+				localStorage.setItem('userId', res.data.localId)
+				dispatch(authSuccess(res.data.idToken, res.data.localId))
+				dispatch(checkAuthTimeout(res.data.expiresIn))
 			})
 			.catch((err) => {
 				dispatch(authFail(err.response.data.error))
@@ -109,26 +124,26 @@ export const setAuthRedirectPath = (path: string): ActionSetPathType => {
 	}
 }
 
-export const checkAuthStatus = () => {
-	return (dispatch: any) => {
-		console.log(localStorage.getItem('token'))
+export const checkAuthStatus = (): ThunkAction<void, AppStateType, unknown, Action<string>> => {
+	return (dispatch) => {
 		const token = localStorage.getItem('token')
 		if (!token) {
 			dispatch(logout())
 		} else {
-			console.log(localStorage.getItem('expirationDate'))
-			const date: any = localStorage.getItem('expirationDate')
-			const expirationDate: any = new Date(date)
-			if (expirationDate <= new Date()) {
-				dispatch(logout())
-			} else {
-				const userId = localStorage.getItem('userId')
-				dispatch(authSuccess(token, userId))
-				dispatch(
-					checkAuthTimeout(
-						(expirationDate.getTime() - new Date().getTime()) / 1000
+			const date: string | null = localStorage.getItem('expirationDate')
+			if (date) {
+				const expirationDate = new Date(date)
+				if (expirationDate <= new Date()) {
+					dispatch(logout())
+				} else {
+					const userId = localStorage.getItem('userId')
+					dispatch(authSuccess(token, userId))
+					dispatch(
+						checkAuthTimeout(
+							(expirationDate.getTime() - new Date().getTime()) / 1000
+						)
 					)
-				)
+				}
 			}
 		}
 	}

@@ -162,9 +162,6 @@ export const Auth: React.FC = () => {
 						shouldValidate={controls.email.validation}
 						placeholder={controls.email.elementConfig.placeholder}
 						changed={(val: string) => inputChangedHandler(val, 'email')}
-						clicked={() => { }}
-						isFocus={false}
-						onfocus={() => { }}
 					/>
 
 					<Input
@@ -175,9 +172,6 @@ export const Auth: React.FC = () => {
 						shouldValidate={controls.password.validation}
 						placeholder={controls.password.elementConfig.placeholder}
 						changed={(val: string) => inputChangedHandler(val, 'password')}
-						clicked={() => { }}
-						isFocus={false}
-						onfocus={() => { }}
 					/>
 					<Button
 						clicked={(e) => submitHandler(e)}

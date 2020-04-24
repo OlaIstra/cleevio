@@ -94,11 +94,7 @@ const Trips = () => {
 					isFocus={isShowList}
 					onfocus={showList}
 					ref={ref}
-					touched={false}
-					shouldValidate={false}
 					elementType='text'
-					clicked={() => { }}
-					invalid={false}
 				/>
 				{tripsToList && isShowList && (
 					<List list={tripsToList} clicked={(e) => setValue(e)} />

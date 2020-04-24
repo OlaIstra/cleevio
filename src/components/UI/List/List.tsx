@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { ListStyle, ListItemStyle } from './style'
+import { Country } from '../../../store/reducers/trips'
 
 type Props = {
-	list: Array<any>
+	list: Array<Country>
 	clicked: (e: React.SyntheticEvent) => void
 }
 

@@ -4,7 +4,7 @@ import { mapKeys } from 'lodash'
 import { ThunkAction } from 'redux-thunk'
 import { AppStateType, InferActionsTypes } from '../..'
 import { Action } from 'redux'
-import { Country } from '../reducers/trips'
+import { Country, ErrorType } from '../reducers/trips'
 
 export type ActionTripType = InferActionsTypes<typeof actions>
 
@@ -22,7 +22,7 @@ export const actions = {
 		} as const
 	},
 
-	fetchTripsFail: (error: string) => {
+	fetchTripsFail: (error: ErrorType) => {
 		return {
 			type: actionTypes.FETCH_TRIPS_FAIL,
 			error: error,
@@ -54,7 +54,7 @@ export const fetchTrips = (): ThunkAction<void, AppStateType, unknown, Action<st
 				})
 				dispatch(actions.fetchTripsSuccess(tripsToShow))
 			})
-			.catch((error: string) => {
+			.catch((error: ErrorType) => {
 				dispatch(actions.fetchTripsFail(error))
 			})
 	}

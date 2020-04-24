@@ -8,10 +8,14 @@ export type Country = {
 	icon: string
 }
 
+export type ErrorType = {
+	message: string
+}
+
 type InitialStateType = {
 	countries: Array<Country>
 	loading: boolean
-	error: null | string
+	error: null | ErrorType
 }
 
 const initialState: InitialStateType = {

@@ -1,17 +1,18 @@
 import React, { ReactElement } from 'react'
 
 import { InputStyle, ValidationErrorStyle } from './style'
+import { EmailValidationType, PasswordValidationType } from '../../../containers/Auth/Auth'
 
 type Props = {
-	touched: boolean
-	shouldValidate: any
-	elementType: string
-	placeholder: string
-	clicked: () => void
-	changed: (...arg: any[]) => any
-	invalid: boolean
-	isFocus: boolean
-	onfocus: any
+	touched?: boolean
+	shouldValidate?: EmailValidationType | PasswordValidationType | null
+	elementType?: string
+	placeholder?: string
+	clicked?: () => void
+	changed: (e: any) => void
+	invalid?: boolean
+	isFocus?: boolean
+	onfocus?: () => void
 }
 
 type PropsValid = {
@@ -22,7 +23,7 @@ const InputElement = (({ placeholder,
 	invalid = false,
 	isFocus = false,
 	touched = false,
-	shouldValidate = false,
+	shouldValidate,
 	elementType = 'text',
 	clicked, changed, onfocus }: Props, ref: React.Ref<HTMLInputElement>) => {
 

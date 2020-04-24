@@ -7,7 +7,7 @@ import germany from '../../assets/img/flags/germany.svg'
 import czechia from '../../assets/img/flags/czechia.svg'
 
 type Props = {
-	id: string
+	id?: string
 	title: string
 }
 

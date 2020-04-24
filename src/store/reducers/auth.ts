@@ -4,7 +4,7 @@ import { ActionAuthType } from '../actions/auth'
 type InitialStateType = {
 	token: null | string,
 	userId: null | string,
-	error: null | string,
+	error: any,
 	loading: Boolean,
 	authRedirectPath: string,
 }

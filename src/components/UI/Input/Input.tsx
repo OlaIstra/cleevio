@@ -1,22 +1,33 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 
 import { InputStyle, ValidationErrorStyle } from './style'
 
 type Props = {
+	touched: boolean
+	shouldValidate: any
 	elementType: string
 	placeholder: string
 	clicked: () => void
-	changed: (val: any) => void
+	changed: (...arg: any[]) => any
 	invalid: boolean
 	isFocus: boolean
 	onfocus: any
-	onblur: any
 }
 
-export const Input: React.FC<Props> = React.forwardRef((props, ref: any) => {
+type PropsValid = {
+	valid: boolean
+}
 
-	let validationError = (
-		<ValidationErrorStyle valid={props.invalid}>
+const InputElement = (({ placeholder,
+	invalid = false,
+	isFocus = false,
+	touched = false,
+	shouldValidate = false,
+	elementType = 'text',
+	clicked, changed, onfocus }: Props, ref: React.Ref<HTMLInputElement>) => {
+
+	let validationError: ReactElement<PropsValid> = (
+		<ValidationErrorStyle valid={invalid}>
 			Please fill the blank
 		</ValidationErrorStyle>
 	)
@@ -25,15 +36,20 @@ export const Input: React.FC<Props> = React.forwardRef((props, ref: any) => {
 		<>
 			{validationError}
 			<InputStyle
-				type={props.elementType}
-				placeholder={props.placeholder}
-				onClick={props.clicked}
+				type={elementType}
+				placeholder={placeholder}
+				onClick={clicked}
 				ref={ref}
-				onChange={() => props.changed(ref.current.value)}
-				isFocus={props.isFocus}
-				onFocus={props.onfocus}
-				onBlur={props.onblur}
+				//@ts-ignore
+				onChange={() => changed(ref!.current.value)}
+				isFocus={isFocus}
+				onFocus={onfocus}
+				//@ts-ignore
+				touched={touched}
+				shouldValidate={shouldValidate}
 			/>
 		</>
 	)
 })
+
+export const Input = React.forwardRef(InputElement)

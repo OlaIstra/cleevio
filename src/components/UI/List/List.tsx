@@ -4,7 +4,7 @@ import { ListStyle, ListItemStyle } from './style'
 
 type Props = {
 	list: Array<any>
-	clicked: () => void
+	clicked: (e: React.SyntheticEvent) => void
 }
 
 export const List: React.FC<Props> = (props) => {

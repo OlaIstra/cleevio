@@ -6,7 +6,7 @@ type Props = {
 	title?: string
 	icon?: string
 	disabled?: boolean
-	clicked?: () => void
+	clicked?: (e: any) => void
 }
 
 export const Button: React.FC<Props> = (props) => {

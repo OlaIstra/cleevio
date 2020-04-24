@@ -11,12 +11,43 @@ import { Toggler } from '../../components/UI/Toggler/Toggler'
 import { Spinner } from '../../components/UI/Spinner/Spinner'
 
 import { AuthStyle } from './style'
+import { AppStateType } from '../..'
 
-const email = createRef()
-const password = createRef()
+const email = createRef<HTMLInputElement>()
+const password = createRef<HTMLInputElement>()
 
-export const Auth = (props) => {
-	const [controls, setControls] = useState({
+
+export type EmailValidationType = {
+	required: boolean
+	isEmail: boolean
+}
+
+export type PasswordValidationType = {
+	required: boolean
+	minLength: number
+}
+
+type InputType<V> = {
+	elementType: string
+	value: string
+	elementConfig: {
+		type: string
+		placeholder: string
+	}
+	defaultValue: string
+	validation: V
+	valid: boolean
+	touched: boolean
+}
+
+
+type Controls = {
+	email: InputType<EmailValidationType>
+	password: InputType<PasswordValidationType>
+}
+
+export const Auth: React.FC = () => {
+	const [controls, setControls] = useState<Controls>({
 		email: {
 			elementType: 'text',
 			value: '',
@@ -56,18 +87,19 @@ export const Auth = (props) => {
 		(path) => dispatch(actions.actions.setAuthRedirectPath(path)),
 		[dispatch]
 	)
-	const onAuth = (email, password, isSignUp) =>
+	const onAuth = (email: string, password: string, isSignUp: boolean) =>
 		dispatch(actions.auth(email, password, isSignUp))
-	const authRedirectPath = useSelector((state) => {
+
+	const authRedirectPath = useSelector((state: AppStateType) => {
 		return state.auth.authRedirectPath
 	})
-	const loading = useSelector((state) => {
+	const loading = useSelector((state: AppStateType) => {
 		return state.auth.loading
 	})
-	const error = useSelector((state) => {
+	const error = useSelector((state: AppStateType) => {
 		return state.auth.error
 	})
-	const isAuth = useSelector((state) => {
+	const isAuth = useSelector((state: AppStateType) => {
 		return state.auth.token !== null
 	})
 
@@ -77,13 +109,17 @@ export const Auth = (props) => {
 		}
 	}, [authRedirectPath, onSetAuthRedirectPath])
 
-	const inputChangedHandler = (val, ref) => {
+	const inputChangedHandler = (val: string, ref: string) => {
+
 		let controlName = ref
-		const updateForm = {
+
+		const updateForm: Controls = {
 			...controls,
 			[controlName]: {
+				//@ts-ignore
 				...controls[controlName],
 				value: val,
+				//@ts-ignore
 				valid: checkValidaty(val, controls[controlName].validation),
 				touched: true,
 			},
@@ -95,7 +131,7 @@ export const Auth = (props) => {
 		setIsSignUp(!isSignUp)
 	}
 
-	const submitHandler = (event) => {
+	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		onAuth(controls.email.value, controls.password.value, isSignUp)
 	}
@@ -117,7 +153,7 @@ export const Auth = (props) => {
 			<>
 				{authRedirect}
 				{errorMessage}
-				<form action='' onSubmit={submitHandler}>
+				<form action='' onSubmit={(e) => submitHandler(e)}>
 					<Input
 						ref={email}
 						elementType={controls.email.elementConfig.type}
@@ -125,7 +161,10 @@ export const Auth = (props) => {
 						touched={controls.email.touched}
 						shouldValidate={controls.email.validation}
 						placeholder={controls.email.elementConfig.placeholder}
-						changed={(val, ref) => inputChangedHandler(val, 'email')}
+						changed={(val: string) => inputChangedHandler(val, 'email')}
+						clicked={() => { }}
+						isFocus={false}
+						onfocus={() => { }}
 					/>
 
 					<Input
@@ -135,12 +174,13 @@ export const Auth = (props) => {
 						touched={controls.password.touched}
 						shouldValidate={controls.password.validation}
 						placeholder={controls.password.elementConfig.placeholder}
-						changed={(val, ref) => inputChangedHandler(val, 'password')}
+						changed={(val: string) => inputChangedHandler(val, 'password')}
+						clicked={() => { }}
+						isFocus={false}
+						onfocus={() => { }}
 					/>
 					<Button
-						variant='contained'
-						color='primary'
-						onClick={submitHandler}
+						clicked={(e) => submitHandler(e)}
 						title='Submit'
 					/>
 				</form>

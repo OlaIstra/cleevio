@@ -3,7 +3,7 @@ import { fontWeight, color, fontSize, height, padding, radius } from '../../../s
 
 export const ListStyle = styled.div`
     position: absolute;
-    top: 59px;
+    top: 40px;
     background: ${color.white};
     max-width: 380px;
     width: 100%;

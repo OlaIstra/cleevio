@@ -1,18 +1,14 @@
-export const updateObject = (oldObject, updatedProperties) => {
-	return {
-		...oldObject,
-		...updatedProperties,
-	}
-}
+import { Country } from "../store/reducers/trips"
+import { EmailValidationType, PasswordValidationType } from '../containers/Auth/Auth'
 
-export const sortByName = (obj, request) => {
+export const sortByName = (obj: Array<Country>, request: string): Array<Country> => {
 	const newObj = obj.filter((elem) => {
 		return elem.value.toLowerCase().indexOf(request.toLowerCase()) === 0
 	})
 	return newObj
 }
 
-export const checkValidaty = (value, rules) => {
+export const checkValidaty = (value: string, rules: EmailValidationType & PasswordValidationType) => {
 	let isValid = true
 
 	if (!rules) {

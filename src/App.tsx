@@ -11,6 +11,7 @@ import { Logout } from './containers/Logout/Logout'
 import Trips from './containers/Trips/Trips'
 
 import './App.css'
+import { AppStateType } from '.'
 
 function App() {
 	const dispatch = useDispatch()
@@ -19,7 +20,7 @@ function App() {
 		[dispatch]
 	)
 
-	const isAuth = useSelector((state) => {
+	const isAuth = useSelector((state: AppStateType) => {
 		return state.auth.token !== null
 	})
 

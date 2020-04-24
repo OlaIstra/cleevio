@@ -11,19 +11,21 @@ import { Spinner } from '../../components/UI/Spinner/Spinner'
 import { List } from '../../components/UI/List/List'
 
 import { sortByName } from '../../shared/utils'
+import { AppStateType } from '../..'
+import { Country } from '../../store/reducers/trips'
 
-const ref = createRef()
+const ref = createRef<HTMLInputElement>()
 
-const Trips = (props) => {
+const Trips = () => {
 	const [isShowList, setShowList] = useState(false)
-	const [tripsToList, setTripsToList] = useState(null)
-	const [country, setCountry] = useState(null)
+	const [tripsToList, setTripsToList] = useState<Array<Country> | null>(null)
+	const [country, setCountry] = useState<Country | null | undefined>(null)
 
-	const loading = useSelector((state) => {
+	const loading = useSelector((state: AppStateType) => {
 		return state.trips.loading
 	})
 
-	const trips = useSelector((state) => {
+	const trips = useSelector((state: AppStateType) => {
 		return state.trips.countries
 	})
 
@@ -40,31 +42,38 @@ const Trips = (props) => {
 		setTripsToList(trips)
 	}, [trips])
 
-	const displayList = (val) => {
+	const displayList = (val: string) => {
 		setTripsToList(sortByName(trips, val))
-		tripsToList.length > 0 ? setShowList(true) : setShowList(false)
+		if (tripsToList) {
+			tripsToList.length > 0 ? setShowList(true) : setShowList(false)
+		}
 	}
 
 	const showList = () => {
 		setShowList(true)
 	}
 
-	const submit = (event) => {
+	const submit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 
 		setTripsToList((prevState) => tripsToList)
+		//@ts-ignore
 		ref.current.value = ''
 		setShowList(false)
 	}
 
-	const setValue = (e) => {
-		let country = tripsToList.find((elem) => {
-			return elem.id === e.target.id
-		})
-		ref.current.value = country.text
+	const setValue = (e: React.SyntheticEvent) => {
+		if (tripsToList && e) {
+			let target = e.target as HTMLElement;
+			let country: Country | undefined = tripsToList.find((elem) => {
+				return elem.id === target.id
+			})
+			//@ts-ignore
+			ref.current.value = country.text
 
-		setCountry(country)
-		setShowList(false)
+			setCountry(country)
+			setShowList(false)
+		}
 	}
 
 	let display = country && (
@@ -85,6 +94,11 @@ const Trips = (props) => {
 					isFocus={isShowList}
 					onfocus={showList}
 					ref={ref}
+					touched={false}
+					shouldValidate={false}
+					elementType='text'
+					clicked={() => { }}
+					invalid={false}
 				/>
 				{tripsToList && isShowList && (
 					<List list={tripsToList} clicked={(e) => setValue(e)} />
